@@ -4,7 +4,7 @@ package com.osgzz.myweather.model;
  * Created by Focus on 2016/8/15.
  */
 
-public class Country {
+public class County {
     private int id;
     private String countyName;
     private String countyCode;

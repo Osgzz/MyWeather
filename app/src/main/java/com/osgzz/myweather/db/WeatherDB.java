@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.osgzz.myweather.model.City;
-import com.osgzz.myweather.model.Country;
+import com.osgzz.myweather.model.County;
 import com.osgzz.myweather.model.Province;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class WeatherDB {
     /**
      * 数据库名
      */
-    public static final String DB_NAME = "cool_weather";
+    public static final String DB_NAME = "weather";
 
     /**
      * 数据库版本
@@ -50,6 +50,7 @@ public class WeatherDB {
     /**
      * 将Province实例存储到数据库。
      */
+
     public void saveProvince(Province province) {
         if (province != null) {
             ContentValues values = new ContentValues();
@@ -62,6 +63,7 @@ public class WeatherDB {
     /**
      * 从数据库读取全国所有的省份信息。
      */
+
     public List<Province> loadProvinces() {
         List<Province> list = new ArrayList<Province>();
         Cursor cursor = db.query("Province", null, null, null, null, null, null);
@@ -116,30 +118,30 @@ public class WeatherDB {
     /**
      * 将County实例存储到数据库。
      */
-    public void saveCounty(Country country) {
-        if (country != null) {
+    public void saveCounty(County county) {
+        if (county != null) {
             ContentValues values = new ContentValues();
-            values.put("country_name", country.getCountyName());
-            values.put("country_code", country.getCountyCode());
-            values.put("city_id", country.getCityId());
-            db.insert("Country", null, values);
+            values.put("country_name", county.getCountyName());
+            values.put("country_code", county.getCountyCode());
+            values.put("city_id", county.getCityId());
+            db.insert("County", null, values);
         }
     }
 
     /**
      * 从数据库读取某城市下所有的县信息。
      */
-    public List<Country> loadCounties(int cityId) {
-        List<Country> list = new ArrayList<Country>();
-        Cursor cursor = db.query("Country", null, "city_id = ?", new String[]{String.valueOf(cityId)}, null, null, null);
+    public List<County> loadCounties(int cityId) {
+        List<County> list = new ArrayList<County>();
+        Cursor cursor = db.query("County", null, "city_id = ?", new String[]{String.valueOf(cityId)}, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                Country country = new Country();
-                country.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                country.setCountyName(cursor.getString(cursor.getColumnIndex("county_name")));
-                country.setCountyCode(cursor.getString(cursor.getColumnIndex("county_code")));
-                country.setCityId(cityId);
-                list.add(country);
+                County county = new County();
+                county.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                county.setCountyName(cursor.getString(cursor.getColumnIndex("county_name")));
+                county.setCountyCode(cursor.getString(cursor.getColumnIndex("county_code")));
+                county.setCityId(cityId);
+                list.add(county);
             } while (cursor.moveToNext());
         }
         cursor.close();
